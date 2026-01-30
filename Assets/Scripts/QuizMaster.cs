@@ -167,6 +167,8 @@ public class QuizMaster : MonoBehaviour
 
     void LoadNextQuestion()
     {
+
+        Debug.Log($"Questions remaining {luchador.questions.Count}");
         if(luchador.questions.Count == 0)
         {
             Debug.Log("No more questions!");
