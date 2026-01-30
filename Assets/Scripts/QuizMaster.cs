@@ -32,6 +32,8 @@ public class QuizMaster : MonoBehaviour
                                           new Vector3(6.5f,-3.5f,0)};
 
     private Luchador luchador;
+    private float answeredPauseTime = 0.2f;
+    private float timer;
 
     private enum QuizState
     {
@@ -52,28 +54,6 @@ public class QuizMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
-        // for (int i = 0; i < answerButtons.Length; i++)
-        // {
-        //     if(hit.transform != null && hit.transform.gameObject == answerButtons[i])
-        //     {
-        //         if (Input.GetMouseButton(0))
-        //         {
-        //             answerButtons[i].GetComponent<SpriteRenderer>().color = (i == correctButtonIndex) ? Color.green : Color.red;
-        //         }
-        //         else
-        //         {
-        //             answerButtons[i].GetComponent<SpriteRenderer>().color = Color.white;
-        //         }
-        //     }
-        //     else
-        //     {
-        //         answerButtons[i].GetComponent<SpriteRenderer>().color = Color.gray7;
-        //     }
-        // }
-
         switch (quizState)
         {
             case QuizState.qsLOAD_QUESTION:
@@ -81,12 +61,55 @@ public class QuizMaster : MonoBehaviour
                 quizState = QuizState.qsANSWERING;
                 break;
             case QuizState.qsANSWERING:
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+                for (int i = 0; i < answerButtons.Length; i++)
+                {
+                    if(hit.transform != null && hit.transform.gameObject == answerButtons[i])
+                    {
+                        if (Input.GetMouseButton(0))
+                        {
+                            if(answerButtons[i].GetComponentInChildren<TextMeshPro>().text == luchador.questions[luchador.currentQuestionIndex].correctAnswerString)
+                            {
+                                quizState = QuizState.qsCORRECT;
+                                answerButtons[i].GetComponent<SpriteRenderer>().color = Color.green;
+                            }
+                            else
+                            {
+                                quizState = QuizState.qsINCORRECT;
+                                answerButtons[i].GetComponent<SpriteRenderer>().color = Color.red;
+                            }
+                            timer = answeredPauseTime;
+                        }
+                        else
+                        {
+                            answerButtons[i].GetComponent<SpriteRenderer>().color = Color.white;
+                        }
+                    }
+                    else
+                    {
+                        answerButtons[i].GetComponent<SpriteRenderer>().color = Color.gray7;
+                    }
+                }
                 break;
             case QuizState.qsCORRECT:
+                timer -= Time.deltaTime;
+                if(timer <= 0.0f)
+                {
+                    quizState = QuizState.qsUNLOAD_QUESTION;
+                }
                 break;
             case QuizState.qsINCORRECT:
+                timer -= Time.deltaTime;
+                if(timer <= 0.0f)
+                {
+                    quizState = QuizState.qsUNLOAD_QUESTION;
+                }
                 break;
             case QuizState.qsUNLOAD_QUESTION:
+                DestroyQuestion();
+                quizState = QuizState.qsLOAD_QUESTION;
                 break;
             default:
                 Debug.LogError("quizState has gone rouge");
@@ -125,7 +148,7 @@ public class QuizMaster : MonoBehaviour
             question.correctAnswerString = cols[1];
             question.answers = cols[1..];
             shuffleArray(question.answers);
-            Debug.Log($"Question {question.questionString}, a) {question.answers[0]} b) {question.answers[1]} c) {question.answers[2]} d) {question.answers[3]}, Correct answer {question.correctAnswerString}");
+            // Debug.Log($"Question {question.questionString}, a) {question.answers[0]} b) {question.answers[1]} c) {question.answers[2]} d) {question.answers[3]}, Correct answer {question.correctAnswerString}");
             luchador.questions.Add(question);
         }
     }
@@ -144,10 +167,16 @@ public class QuizMaster : MonoBehaviour
 
     void LoadNextQuestion()
     {
+        if(luchador.questions.Count == 0)
+        {
+            Debug.Log("No more questions!");
+            return;
+        }
+
         luchador.currentQuestionIndex = Random.Range(0, luchador.questions.Count);
 
         questionBox = Instantiate(questionBoxPrefab, questionLocation, Quaternion.identity);
-        questionBox.GetComponentInChildren<TextMeshPro>().text = luchador.questions[luchador.currentQuestionIndex].questionString;
+        questionBox.GetComponentInChildren<TextMeshPro>().text = luchador.questions[luchador.currentQuestionIndex].questionString.Replace("[MASK]", "[\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0]");
         for (int i = 0; i < answerButtons.Length; i++)
         {
             answerButtons[i] = Instantiate(answerButtonPrefab, buttonLocations[i], Quaternion.identity);
@@ -157,6 +186,11 @@ public class QuizMaster : MonoBehaviour
 
     void DestroyQuestion()
     {
-        
+        luchador.questions.RemoveAt(luchador.currentQuestionIndex);
+        Destroy(questionBox);
+        foreach (GameObject answerButton in answerButtons)
+        {
+            Destroy(answerButton);
+        }
     }
 }
