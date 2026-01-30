@@ -386,6 +386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuizMaster
   questionBoxPrefab: {fileID: 1337081400398973855, guid: e05a804084b892a45b0832d29593ff5d, type: 3}
   answerButtonPrefab: {fileID: 6249779979081033792, guid: d19ad94150ca6d2478287710de06ac59, type: 3}
+  selectedLuchador: el_modismo
 --- !u!1 &1528039770
 GameObject:
   m_ObjectHideFlags: 0

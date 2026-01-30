@@ -1,15 +1,13 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Luchador
 {
     public List<Question> questions;
     public string name;
     public string metadata;
+    public int currentQuestionIndex;
 }
 
 public class Question
@@ -17,13 +15,13 @@ public class Question
     public string questionString;
     public string correctAnswerString;
     public string[] answers;
-    public bool used;
 }
 
 public class QuizMaster : MonoBehaviour
 {
     public GameObject questionBoxPrefab;
     public GameObject answerButtonPrefab;
+    public string selectedLuchador;
 
     private GameObject questionBox;
     private Vector3 questionLocation = new Vector3(-4.5f, -2.75f, 0);
@@ -33,48 +31,67 @@ public class QuizMaster : MonoBehaviour
                                           new Vector3(2.0f,-3.5f,0),
                                           new Vector3(6.5f,-3.5f,0)};
 
-    private int correctButtonIndex = 2;
-
     private Luchador luchador;
+
+    private enum QuizState
+    {
+        qsLOAD_QUESTION,
+        qsANSWERING,
+        qsCORRECT,
+        qsINCORRECT,
+        qsUNLOAD_QUESTION
+    }
+    private QuizState quizState = QuizState.qsLOAD_QUESTION;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        LoadLuchador("el_modismo");
-
-        for (int i = 0; i < answerButtons.Length; i++)
-        {
-            answerButtons[i] = Instantiate(answerButtonPrefab, buttonLocations[i], Quaternion.identity);
-            answerButtons[i].GetComponentInChildren<TextMeshPro>().text = "Answer " + (i+1).ToString();
-        }
-        questionBox = Instantiate(questionBoxPrefab, questionLocation, Quaternion.identity);
+        LoadLuchador(selectedLuchador);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+        // Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
-        for (int i = 0; i < answerButtons.Length; i++)
+        // for (int i = 0; i < answerButtons.Length; i++)
+        // {
+        //     if(hit.transform != null && hit.transform.gameObject == answerButtons[i])
+        //     {
+        //         if (Input.GetMouseButton(0))
+        //         {
+        //             answerButtons[i].GetComponent<SpriteRenderer>().color = (i == correctButtonIndex) ? Color.green : Color.red;
+        //         }
+        //         else
+        //         {
+        //             answerButtons[i].GetComponent<SpriteRenderer>().color = Color.white;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         answerButtons[i].GetComponent<SpriteRenderer>().color = Color.gray7;
+        //     }
+        // }
+
+        switch (quizState)
         {
-            if(hit.transform != null && hit.transform.gameObject == answerButtons[i])
-            {
-                if (Input.GetMouseButton(0))
-                {
-                    answerButtons[i].GetComponent<SpriteRenderer>().color = (i == correctButtonIndex) ? Color.green : Color.red;
-                }
-                else
-                {
-                    answerButtons[i].GetComponent<SpriteRenderer>().color = Color.white;
-                }
-            }
-            else
-            {
-                answerButtons[i].GetComponent<SpriteRenderer>().color = Color.gray7;
-            }
+            case QuizState.qsLOAD_QUESTION:
+                LoadNextQuestion();
+                quizState = QuizState.qsANSWERING;
+                break;
+            case QuizState.qsANSWERING:
+                break;
+            case QuizState.qsCORRECT:
+                break;
+            case QuizState.qsINCORRECT:
+                break;
+            case QuizState.qsUNLOAD_QUESTION:
+                break;
+            default:
+                Debug.LogError("quizState has gone rouge");
+                break;
         }
-
     }
 
     void LoadLuchador(string luchadorName)
@@ -125,7 +142,20 @@ public class QuizMaster : MonoBehaviour
         }
     }
 
-    void destroyQuestion()
+    void LoadNextQuestion()
+    {
+        luchador.currentQuestionIndex = Random.Range(0, luchador.questions.Count);
+
+        questionBox = Instantiate(questionBoxPrefab, questionLocation, Quaternion.identity);
+        questionBox.GetComponentInChildren<TextMeshPro>().text = luchador.questions[luchador.currentQuestionIndex].questionString;
+        for (int i = 0; i < answerButtons.Length; i++)
+        {
+            answerButtons[i] = Instantiate(answerButtonPrefab, buttonLocations[i], Quaternion.identity);
+            answerButtons[i].GetComponentInChildren<TextMeshPro>().text = luchador.questions[luchador.currentQuestionIndex].answers[i];
+        }
+    }
+
+    void DestroyQuestion()
     {
         
     }
