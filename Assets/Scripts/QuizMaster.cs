@@ -36,7 +36,7 @@ public class QuizMaster : MonoBehaviour
                                           new Vector3(6.5f,-3.5f,0)};
 
     private Luchador luchador;
-    private float answeredPauseTime = 0.2f;
+    private float answeredPauseTime = 0.3f;
     private float timer;
     private float playerHealth = 100f;
     private float maxPlayerHeath = 100f;
@@ -92,6 +92,7 @@ public class QuizMaster : MonoBehaviour
                                 playerHealth -= 10.0f;
                                 Debug.Log("You were struck by the luchador!");
                                 UpdateHeathBar(playerHealthBar, playerHealth/maxPlayerHeath);
+                                FindFirstObjectByType<CameraShake>().StartCoroutine(FindFirstObjectByType<CameraShake>().Shake(0.2f, 0.5f));
                             }
                             timer = answeredPauseTime;
                         }
