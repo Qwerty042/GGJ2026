@@ -103,9 +103,10 @@ masked_phrase|word|distractor1|distractor2|distractor3
 """Once an [MASK] has taken hold of the brain, it's almost impossible to eradicate."" - Inception (2010)"|idea|image|itch|ache
 """Machete don't [MASK]."" - Machete (2010)"|text|call|tweet|smile
 """Which would be worse—to live as a monster, or to die as a [MASK] man?"" - Shutter Island (2010)"|good|brave|free|sane
+"""A guy who builds a nice [MASK] doesn’t owe money to everyone who ever has built a chair."" - The Social Network (2010)"|chair|house|table|bench
 """A million dollars isn't cool; you know what's cool? A [MASK] dollars."" - The Social Network (2010)"|billion|trillion|zillion|thousand
 """Sunnyside is ruled by an evil bear who smells of [MASK]!"" - Toy Story 3 (2010)"|strawberries|honey|flowers|cinnamon
-"""I'm gonna [MASK] that like a tree."" - Bridesmaids (2011)"|climb|jump|hug|climb
+"""I'm gonna [MASK] that like a tree."" - Bridesmaids (2011)"|climb|jump|hug|stab
 """You are more beautiful than [MASK]!"" - Bridesmaids (2011)"|Cinderella|Snow White|Barbie|Venus
 """You give me a time and a place, I give you a five minute [MASK]."" - Drive (2011)"|window|break|chance|limit
 """Fear of offending can be stronger than the fear of [MASK]."" - The Girl With the Dragon Tattoo (2011)"|pain|death|truth|failure
