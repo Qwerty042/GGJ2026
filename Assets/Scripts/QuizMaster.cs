@@ -84,6 +84,7 @@ public class QuizMaster : MonoBehaviour
                                 luchador.health -= 10.0f;
                                 Debug.Log("You struck the luchador!");
                                 UpdateHeathBar(luchadorHealthBar, luchador.health/luchador.maxHealth);
+                                FindFirstObjectByType<LuchadorShake>().StartCoroutine(FindFirstObjectByType<LuchadorShake>().Shake(0.2f, 0.5f));
                             }
                             else
                             {
