@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LuchadorHover : MonoBehaviour
 {
@@ -51,6 +52,13 @@ public class LuchadorHover : MonoBehaviour
         // Revert color immediately
         if (spriteRenderer != null)
             spriteRenderer.color = originalColor;
+    }
+
+    void OnClick()
+    {
+        GlobalGameState.nextLuchadorCsvFileName = GetComponent<OverworldLuchador>().luchadorCsvFileName;
+        GlobalGameState.nextLuchadorName = GetComponent<OverworldLuchador>().luchadorName;
+        SceneManager.LoadScene("sceneName");
     }
 
     void Update()

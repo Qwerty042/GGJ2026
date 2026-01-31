@@ -4,11 +4,13 @@ public class OverworldLuchador : MonoBehaviour
 {
 
     public string luchadorName;
+    public string luchadorCsvFileName;
     public SpriteRenderer spriteRenderer;
 
-    public void Initialize(string name, Sprite sprite)
+    public void Initialize(string name, string csvFileName, Sprite sprite)
     {
         luchadorName = name;
+        luchadorCsvFileName = csvFileName;
         spriteRenderer.sprite = sprite;
     }
 

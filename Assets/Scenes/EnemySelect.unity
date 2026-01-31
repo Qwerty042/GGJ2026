@@ -161,6 +161,14 @@ MonoBehaviour:
   - Ultimo Memer
   - El Politico
   - Obscuro
+  luchadorCsvFileNames:
+  - el_modismo
+  - nacho_libre
+  - pantalla_plateada
+  - rey_lucha
+  - ultimo_memer
+  - el_politico
+  - obscuro
   luchadorSprites:
   - {fileID: -2966335851264288642, guid: 0341c19f1ff1864439da2bdc14e65380, type: 3}
   - {fileID: 3615386684870059877, guid: fe68317500d77e345b6c9cd1be2b9122, type: 3}

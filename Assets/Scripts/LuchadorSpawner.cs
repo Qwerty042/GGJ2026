@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class LuchadorSpawner : MonoBehaviour
@@ -5,6 +6,7 @@ public class LuchadorSpawner : MonoBehaviour
     public GameObject luchadorPrefab;
     public Transform[] spawnPoints;
     public string[] luchadorNames;
+    public string[] luchadorCsvFileNames;
     public Sprite[] luchadorSprites;
     public int score;
     public int lastLucha;
@@ -12,6 +14,7 @@ public class LuchadorSpawner : MonoBehaviour
     void Start()
     {
         SpawnLuchadors();
+        lastLucha = Array.IndexOf(luchadorNames, GlobalGameState.prevLuchadorName);
     }
 
     void SpawnLuchadors()
@@ -26,7 +29,7 @@ public class LuchadorSpawner : MonoBehaviour
             int i = 0;
             while (i < 3)
             {
-                int n = Random.Range(0, 6);
+                int n = UnityEngine.Random.Range(0, 6);
                 if (n == lastLucha || System.Array.Exists(selectedLuchas, x => x == n)) continue;
                 selectedLuchas[i] = n;
                 i++;
@@ -42,7 +45,7 @@ public class LuchadorSpawner : MonoBehaviour
             int i = 0;
             while (i < 3)
             {
-                int n = Random.Range(0, 7);
+                int n = UnityEngine.Random.Range(0, 7);
                 if (n == lastLucha || System.Array.Exists(selectedLuchas, x => x == n)) continue;
                 selectedLuchas[i] = n;
                 i++;
@@ -58,7 +61,7 @@ public class LuchadorSpawner : MonoBehaviour
     void SpawnLuchador(int index, Vector3 position)
     {
         var obj = Instantiate(luchadorPrefab, position, Quaternion.identity);
-        obj.GetComponent<OverworldLuchador>().Initialize(luchadorNames[index], luchadorSprites[index]);
+        obj.GetComponent<OverworldLuchador>().Initialize(luchadorNames[index], luchadorCsvFileNames[index], luchadorSprites[index]);
     }
     void Update()
     {
