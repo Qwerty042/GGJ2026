@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 19e1df3fb5ff2cb459538615458d956d
+guid: 559f3f1be4ce6864fa719b45f676abcc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3094500731827426634
-    second: modismothumb_0
+      213: -1257987060187587975
+    second: NachoSprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: modismothumb_0
+      name: NachoSprite_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 29
-        height: 40
+        width: 126
+        height: 214
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a4592cd2500e1fa20800000000000000
-      internalID: 3094500731827426634
+      spriteID: 97a1b711f6bba8ee0800000000000000
+      internalID: -1257987060187587975
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      modismothumb_0: 3094500731827426634
+      NachoSprite_0: -1257987060187587975
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
