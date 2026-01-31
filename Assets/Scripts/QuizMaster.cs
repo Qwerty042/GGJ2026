@@ -27,6 +27,8 @@ public class QuizMaster : MonoBehaviour
     public GameObject luchadorHealthBar;
     public GameObject questionBoxPrefab;
     public GameObject answerButtonPrefab;
+    public GameObject playerSprite;
+    public GameObject luchadorSprite;
 
     private string selectedLuchador;
     private GameObject questionBox;
@@ -51,6 +53,18 @@ public class QuizMaster : MonoBehaviour
     public AudioClip badKO;
     private AudioSource hitAudioSource;
 
+    private Vector3 playerSpriteStartPos;
+    private Vector3 playerSpriteStartScale;
+    private float playerJumpingAnimPos = 0.0f;
+    private float playerJumpingAnimDir = 1.0f;
+    private float playerJumpingAnimRate = 2.0f;
+
+    private Vector3 luchadorSpriteStartPos;
+    private Vector3 luchadorSpriteStartScale;
+    private float luchadorJumpingAnimPos = 0.0f;
+    private float luchadorJumpingAnimDir = 1.0f;
+    private float luchadorJumpingAnimRate = 2.722993f;
+
 
 
     private enum QuizState
@@ -71,6 +85,10 @@ public class QuizMaster : MonoBehaviour
         selectedLuchador = GlobalGameState.nextLuchadorCsvFileName;
         LoadLuchador(selectedLuchador);
         UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
+        playerSpriteStartPos = playerSprite.transform.position;
+        playerSpriteStartScale = playerSprite.transform.localScale;
+        luchadorSpriteStartPos = luchadorSprite.transform.position;
+        luchadorSpriteStartScale = luchadorSprite.transform.localScale;
 
         hoverAudioSource = gameObject.AddComponent<AudioSource>();
         hitAudioSource  = gameObject.AddComponent<AudioSource>();
@@ -86,6 +104,45 @@ public class QuizMaster : MonoBehaviour
                 quizState = QuizState.qsANSWERING;
                 break;
             case QuizState.qsANSWERING:
+
+                Vector3 nextPos = new Vector3();
+                nextPos.x = Mathf.Lerp(playerSpriteStartPos.x, playerSpriteStartPos.x + 0.5f, playerJumpingAnimPos);
+                nextPos.y = playerSpriteStartPos.y + (-0.25f * Mathf.Sin(((playerSpriteStartPos.x * Mathf.PI)/(0.5f))-(((nextPos.x) * Mathf.PI)/(0.5f))));
+                Debug.Log(nextPos.y);
+                
+                playerSprite.transform.position = nextPos;
+
+                playerJumpingAnimPos += playerJumpingAnimRate * Time.deltaTime * playerJumpingAnimDir;
+                if (playerJumpingAnimPos >= 1.0f)
+                {
+                    playerJumpingAnimPos = 1.0f;
+                    playerJumpingAnimDir = -1.0f;
+                }
+                else if (playerJumpingAnimPos <= 0.0f)
+                {
+                    playerJumpingAnimPos = 0.0f;
+                    playerJumpingAnimDir = 1.0f;
+                }
+
+                nextPos = new Vector3();
+                nextPos.x = Mathf.Lerp(luchadorSpriteStartPos.x, luchadorSpriteStartPos.x + 0.3f, luchadorJumpingAnimPos);
+                nextPos.y = luchadorSpriteStartPos.y + (-0.15f * Mathf.Sin(((luchadorSpriteStartPos.x * Mathf.PI)/(0.3f))-(((nextPos.x) * Mathf.PI)/(0.3f))));
+                Debug.Log(nextPos.y);
+                
+                luchadorSprite.transform.position = nextPos;
+
+                luchadorJumpingAnimPos += luchadorJumpingAnimRate * Time.deltaTime * luchadorJumpingAnimDir;
+                if (luchadorJumpingAnimPos >= 1.0f)
+                {
+                    luchadorJumpingAnimPos = 1.0f;
+                    luchadorJumpingAnimDir = -1.0f;
+                }
+                else if (luchadorJumpingAnimPos <= 0.0f)
+                {
+                    luchadorJumpingAnimPos = 0.0f;
+                    luchadorJumpingAnimDir = 1.0f;
+                }
+
                 Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
@@ -93,7 +150,7 @@ public class QuizMaster : MonoBehaviour
                 {
                     if(hit.transform != null && hit.transform.gameObject == answerButtons[i])
                     {
-                        if (Input.GetMouseButton(0))
+                        if (Input.GetMouseButtonDown(0))
                         {
                             if(answerButtons[i].GetComponentInChildren<TextMeshPro>().text == luchador.questions[luchador.currentQuestionIndex].correctAnswerString)
                             {
@@ -126,6 +183,8 @@ public class QuizMaster : MonoBehaviour
                                     hitAudioSource.PlayOneShot(goodKO);
                                 }
                                 FindFirstObjectByType<LuchadorShake>().StartCoroutine(FindFirstObjectByType<LuchadorShake>().Shake(0.2f, 0.5f));
+                                playerSprite.transform.position = new Vector3(playerSpriteStartPos.x + 3.0f, playerSpriteStartPos.y + 0.6f, playerSpriteStartPos.z);
+                                playerSprite.transform.localScale = playerSpriteStartScale * 0.9f;
                             }
                             else
                             {
@@ -143,6 +202,8 @@ public class QuizMaster : MonoBehaviour
                                 }
                                 FindFirstObjectByType<CameraShake>().StartCoroutine(FindFirstObjectByType<CameraShake>().Shake(0.2f, 0.5f));
                                 FindFirstObjectByType<RedDamageOverlay>().StartCoroutine(FindFirstObjectByType<RedDamageOverlay>().Pulse());
+                                luchadorSprite.transform.position = new Vector3(luchadorSpriteStartPos.x - 2.5f, playerSpriteStartPos.y - 0.1f, playerSpriteStartPos.z);
+                                luchadorSprite.transform.localScale = luchadorSpriteStartScale * 1.2f;
                             }
                             timer = answeredPauseTime;
                         }
@@ -165,6 +226,7 @@ public class QuizMaster : MonoBehaviour
                 timer -= Time.deltaTime;
                 if(timer <= 0.0f)
                 {
+                    playerSprite.transform.localScale = playerSpriteStartScale;
                     quizState = QuizState.qsUNLOAD_QUESTION;
                 }
                 break;
@@ -172,6 +234,7 @@ public class QuizMaster : MonoBehaviour
                 timer -= Time.deltaTime;
                 if(timer <= 0.0f)
                 {
+                    luchadorSprite.transform.localScale = luchadorSpriteStartScale;
                     quizState = QuizState.qsUNLOAD_QUESTION;
                 }
                 break;
