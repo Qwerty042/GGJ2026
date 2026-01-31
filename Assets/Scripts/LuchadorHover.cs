@@ -57,8 +57,10 @@ public class LuchadorHover : MonoBehaviour
     void OnMouseDown()
     {
         Debug.Log("Clicked!");
+        string thisLuchadorName = GetComponent<OverworldLuchador>().luchadorName;
+        AudioManager.Instance.SetVolume(thisLuchadorName, 1.0f);
         GlobalGameState.nextLuchadorCsvFileName = GetComponent<OverworldLuchador>().luchadorCsvFileName;
-        GlobalGameState.nextLuchadorName = GetComponent<OverworldLuchador>().luchadorName;
+        GlobalGameState.nextLuchadorName = thisLuchadorName;
         SceneManager.LoadScene("FightScene");
     }
 

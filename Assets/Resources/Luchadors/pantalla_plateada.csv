@@ -17,7 +17,7 @@ masked_phrase|word|distractor1|distractor2|distractor3
 "They call me [MASK] Tibbs!" - In the Heat of the Night (1967)|Mister|Officer|Detective|Agent
 "[MASK]." - Citizen Kane (1941)|Rosebud|Snowflake|Sled|Memories
 "Made it, Ma! [MASK] of the world!" - White Heat (1949)|Top|King|Edge|Master
-"I'm as [MASK] as hell, and I'm not going to take this anymore!" - Network (1976mad|angry|tired|sick
+"I'm as [MASK] as hell, and I'm not going to take this anymore!" - Network (1976)|mad|angry|tired|sick
 "Louis, I think this is the beginning of a beautiful [MASK]." - Casablanca (1942)|friendship|romance|journey|partnership
 "I ate his liver with some fava beans and a nice [MASK]." - The Silence of the Lambs (1991)|Chianti|Merlot|Whiskey|Soda
 "Bond. [MASK] Bond." - Dr. No (1962)|James|John|Jason|Julian
@@ -76,7 +76,7 @@ masked_phrase|word|distractor1|distractor2|distractor3
 "Soylent Green is [MASK]!" - Soylent Green (1973)|people|poison|plants|algae
 "Open the pod bay [MASK], HAL." - 2001: A Space Odyssey (1968)|doors|gates|locks|vents
 "Don't call me [MASK]." - Airplane! (1980)|Shirley|Surely|Honey|Pilot
-"Yo, [MASK]!" - Rocky (1976)"|Adrian|Mickey|Apollo|Paulie
+"Yo, [MASK]!" - Rocky (1976)|Adrian|Mickey|Apollo|Paulie
 "Hello, [MASK]." - Funny Girl (1968)|gorgeous|beautiful|darling|sunshine
 "Children of the [MASK]. What music they make." - Dracula (1931)|night|dark|grave|moon
 "It was Beauty killed the [MASK]." - King Kong (1933)|Beast|Gorilla|King|Heart
