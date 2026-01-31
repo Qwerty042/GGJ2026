@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Luchador
 {
     public List<Question> questions;
     public string name;
+    public string displayName;
     public string metadata;
     public int currentQuestionIndex;
     public float health;
@@ -25,8 +27,8 @@ public class QuizMaster : MonoBehaviour
     public GameObject luchadorHealthBar;
     public GameObject questionBoxPrefab;
     public GameObject answerButtonPrefab;
-    public string selectedLuchador;
 
+    private string selectedLuchador;
     private GameObject questionBox;
     private Vector3 questionLocation = new Vector3(-4.5f, -2.75f, 0);
     private GameObject[] answerButtons = new GameObject[4];
@@ -55,6 +57,7 @@ public class QuizMaster : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        selectedLuchador = GlobalGameState.nextLuchadorCsvFileName;
         LoadLuchador(selectedLuchador);
     }
 
@@ -136,6 +139,7 @@ public class QuizMaster : MonoBehaviour
                 }
                 break;
             case QuizState.qsEND:
+                SceneManager.LoadScene("Ded");
                 break;
             default:
                 Debug.LogError("quizState has gone rouge");
@@ -162,6 +166,7 @@ public class QuizMaster : MonoBehaviour
         luchador = new Luchador();
         luchador.questions = new List<Question>();
         luchador.name = luchadorName;
+        luchador.displayName = GlobalGameState.nextLuchadorName;
         luchador.maxHealth = 100;
         luchador.health = luchador.maxHealth;
         luchador.metadata = lines[0]; // TODO: parse this to get the visual and sound assets for this luchador
