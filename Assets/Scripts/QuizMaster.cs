@@ -8,7 +8,8 @@ public class Luchador
     public string name;
     public string metadata;
     public int currentQuestionIndex;
-    public int health;
+    public float health;
+    public float maxHealth;
 }
 
 public class Question
@@ -20,6 +21,8 @@ public class Question
 
 public class QuizMaster : MonoBehaviour
 {
+    public GameObject playerHealthBar;
+    public GameObject luchadorHealthBar;
     public GameObject questionBoxPrefab;
     public GameObject answerButtonPrefab;
     public string selectedLuchador;
@@ -35,7 +38,8 @@ public class QuizMaster : MonoBehaviour
     private Luchador luchador;
     private float answeredPauseTime = 0.2f;
     private float timer;
-    private int playerHealth = 100;
+    private float playerHealth = 100f;
+    private float maxPlayerHeath = 100f;
 
     private enum QuizState
     {
@@ -77,15 +81,17 @@ public class QuizMaster : MonoBehaviour
                             {
                                 quizState = QuizState.qsCORRECT;
                                 answerButtons[i].GetComponent<SpriteRenderer>().color = Color.green;
-                                luchador.health -= 10;
+                                luchador.health -= 10.0f;
                                 Debug.Log("You struck the luchador!");
+                                UpdateHeathBar(luchadorHealthBar, luchador.health/luchador.maxHealth);
                             }
                             else
                             {
                                 quizState = QuizState.qsINCORRECT;
                                 answerButtons[i].GetComponent<SpriteRenderer>().color = Color.red;
-                                playerHealth -= 10;
+                                playerHealth -= 10.0f;
                                 Debug.Log("You were struck by the luchador!");
+                                UpdateHeathBar(playerHealthBar, playerHealth/maxPlayerHeath);
                             }
                             timer = answeredPauseTime;
                         }
@@ -154,7 +160,8 @@ public class QuizMaster : MonoBehaviour
         luchador = new Luchador();
         luchador.questions = new List<Question>();
         luchador.name = luchadorName;
-        luchador.health = 100;
+        luchador.maxHealth = 100;
+        luchador.health = luchador.maxHealth;
         luchador.metadata = lines[0]; // TODO: parse this to get the visual and sound assets for this luchador
 
         for (int i = 1; i < lines.Length; i++)
@@ -213,5 +220,11 @@ public class QuizMaster : MonoBehaviour
         {
             Destroy(answerButton);
         }
+    }
+
+    void UpdateHeathBar(GameObject healthBar, float healthRatio)
+    {
+        healthBar.GetComponentsInChildren<Transform>()[1].localScale = new Vector3(healthRatio, 1, 1);
+        healthBar.GetComponentsInChildren<Transform>()[1].localPosition = new Vector3(-0.5f*(1.0f-healthRatio), 0, 0);
     }
 }
