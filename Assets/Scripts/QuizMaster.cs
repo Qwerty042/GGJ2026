@@ -142,6 +142,7 @@ public class QuizMaster : MonoBehaviour
                                     hitAudioSource.PlayOneShot(badHit);
                                 }
                                 FindFirstObjectByType<CameraShake>().StartCoroutine(FindFirstObjectByType<CameraShake>().Shake(0.2f, 0.5f));
+                                FindFirstObjectByType<RedDamageOverlay>().StartCoroutine(FindFirstObjectByType<RedDamageOverlay>().Pulse());
                             }
                             timer = answeredPauseTime;
                         }
