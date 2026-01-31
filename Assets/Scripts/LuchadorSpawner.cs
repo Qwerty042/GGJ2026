@@ -4,6 +4,7 @@ using UnityEngine;
 public class LuchadorSpawner : MonoBehaviour
 {
     public GameObject luchadorPrefab;
+    public GameObject playerHealthBar;
     public Transform[] spawnPoints;
     public string[] luchadorNames;
     public string[] luchadorCsvFileNames;
@@ -15,6 +16,7 @@ public class LuchadorSpawner : MonoBehaviour
     {
         lastLucha = Array.IndexOf(luchadorNames, GlobalGameState.prevLuchadorName);
         SpawnLuchadors();
+        UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
     }
 
     void SpawnLuchadors()
@@ -63,8 +65,10 @@ public class LuchadorSpawner : MonoBehaviour
         var obj = Instantiate(luchadorPrefab, position, Quaternion.identity);
         obj.GetComponent<OverworldLuchador>().Initialize(luchadorNames[index], luchadorCsvFileNames[index], luchadorSprites[index]);
     }
-    void Update()
+
+    void UpdateHeathBar(GameObject healthBar, float healthRatio)
     {
-        
+        healthBar.GetComponentsInChildren<Transform>()[1].localScale = new Vector3(healthRatio, 1, 1);
+        healthBar.GetComponentsInChildren<Transform>()[1].localPosition = new Vector3(-0.5f*(1.0f-healthRatio), 0, 0);
     }
 }
