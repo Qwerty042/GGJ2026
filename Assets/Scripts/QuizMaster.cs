@@ -8,6 +8,7 @@ public class Luchador
     public string name;
     public string metadata;
     public int currentQuestionIndex;
+    public int health;
 }
 
 public class Question
@@ -34,6 +35,7 @@ public class QuizMaster : MonoBehaviour
     private Luchador luchador;
     private float answeredPauseTime = 0.2f;
     private float timer;
+    private int playerHealth = 100;
 
     private enum QuizState
     {
@@ -41,7 +43,8 @@ public class QuizMaster : MonoBehaviour
         qsANSWERING,
         qsCORRECT,
         qsINCORRECT,
-        qsUNLOAD_QUESTION
+        qsUNLOAD_QUESTION,
+        qsEND
     }
     private QuizState quizState = QuizState.qsLOAD_QUESTION;
 
@@ -74,11 +77,15 @@ public class QuizMaster : MonoBehaviour
                             {
                                 quizState = QuizState.qsCORRECT;
                                 answerButtons[i].GetComponent<SpriteRenderer>().color = Color.green;
+                                luchador.health -= 10;
+                                Debug.Log("You struck the luchador!");
                             }
                             else
                             {
                                 quizState = QuizState.qsINCORRECT;
                                 answerButtons[i].GetComponent<SpriteRenderer>().color = Color.red;
+                                playerHealth -= 10;
+                                Debug.Log("You were struck by the luchador!");
                             }
                             timer = answeredPauseTime;
                         }
@@ -109,7 +116,18 @@ public class QuizMaster : MonoBehaviour
                 break;
             case QuizState.qsUNLOAD_QUESTION:
                 DestroyQuestion();
-                quizState = QuizState.qsLOAD_QUESTION;
+                Debug.Log($"Remaining Player Health: {playerHealth}, Remaining Luchador Health: {luchador.health}");
+                if(playerHealth <= 0 || luchador.health <= 0)
+                {
+                    Debug.Log("Game Over!");
+                    quizState = QuizState.qsEND;
+                }
+                else
+                {
+                    quizState = QuizState.qsLOAD_QUESTION;
+                }
+                break;
+            case QuizState.qsEND:
                 break;
             default:
                 Debug.LogError("quizState has gone rouge");
@@ -136,6 +154,7 @@ public class QuizMaster : MonoBehaviour
         luchador = new Luchador();
         luchador.questions = new List<Question>();
         luchador.name = luchadorName;
+        luchador.health = 100;
         luchador.metadata = lines[0]; // TODO: parse this to get the visual and sound assets for this luchador
 
         for (int i = 1; i < lines.Length; i++)
