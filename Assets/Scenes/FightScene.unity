@@ -795,8 +795,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuizMaster
   playerHealthBar: {fileID: 1582509466}
   luchadorHealthBar: {fileID: 1828881888}
-  questionBoxPrefab: {fileID: 1337081400398973855, guid: e05a804084b892a45b0832d29593ff5d, type: 3}
-  answerButtonPrefab: {fileID: 6249779979081033792, guid: d19ad94150ca6d2478287710de06ac59, type: 3}
+  questionBoxPrefab: {fileID: 2470752587401163158, guid: c616ea9b3291e5548b042b8de8435452, type: 3}
+  answerButtonPrefab: {fileID: 1838150109723782654, guid: 39b30b02faad07641beb1d40fdaf4c72, type: 3}
   playerSprite: {fileID: 807894414}
   luchadorSprite: {fileID: 1531962429}
   ringBell: {fileID: 8300000, guid: 305024dcea9c9d643a878dd16e0d6f56, type: 3}
