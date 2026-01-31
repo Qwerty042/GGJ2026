@@ -17,6 +17,14 @@ public class OverworldLuchador : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        var box = GetComponent<BoxCollider2D>();
+        var sr = GetComponent<SpriteRenderer>();
+
+        if (box != null && sr != null)
+        {
+            box.size = sr.sprite.bounds.size;
+            box.offset = sr.sprite.bounds.center;
+        }    
     }
 
     // Update is called once per frame

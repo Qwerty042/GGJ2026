@@ -43,6 +43,9 @@ public class QuizMaster : MonoBehaviour
     private float answeredPauseTime = 0.3f;
     private float timer;
 
+    public AudioClip ringBell;
+    private AudioSource flavourAudioSource;
+
 
     public AudioClip hoverSound;
     private AudioSource hoverAudioSource;
@@ -92,6 +95,9 @@ public class QuizMaster : MonoBehaviour
 
         hoverAudioSource = gameObject.AddComponent<AudioSource>();
         hitAudioSource  = gameObject.AddComponent<AudioSource>();
+        flavourAudioSource = gameObject.AddComponent<AudioSource>();
+
+        flavourAudioSource.PlayOneShot(ringBell);
     }
 
     // Update is called once per frame

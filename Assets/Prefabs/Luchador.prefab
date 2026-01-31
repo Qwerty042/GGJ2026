@@ -29,7 +29,7 @@ RectTransform:
   m_GameObject: {fileID: 2571096146958290259}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2966335851264288642, guid: 0341c19f1ff1864439da2bdc14e65380, type: 3}
+  m_Sprite: {fileID: 3094500731827426634, guid: 19e1df3fb5ff2cb459538615458d956d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -136,7 +136,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.84, y: 1.29}
+    oldSize: {x: 0.29, y: 0.4}
     newSize: {x: 0.84, y: 1.29}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -175,3 +175,6 @@ MonoBehaviour:
   lerpSpeed: 10
   hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   hoverSound: {fileID: 8300000, guid: aec035aec3495b743abe3546589b3899, type: 3}
+  nombreText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  luchadorName: 
