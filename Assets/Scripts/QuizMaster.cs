@@ -41,6 +41,18 @@ public class QuizMaster : MonoBehaviour
     private float answeredPauseTime = 0.3f;
     private float timer;
 
+
+    public AudioClip hoverSound;
+    private AudioSource hoverAudioSource;
+
+    public AudioClip[] goodHits;
+    public AudioClip badHit;
+    public AudioClip goodKO;
+    public AudioClip badKO;
+    private AudioSource hitAudioSource;
+
+
+
     private enum QuizState
     {
         qsLOAD_QUESTION,
@@ -59,6 +71,9 @@ public class QuizMaster : MonoBehaviour
         selectedLuchador = GlobalGameState.nextLuchadorCsvFileName;
         LoadLuchador(selectedLuchador);
         UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
+
+        hoverAudioSource = gameObject.AddComponent<AudioSource>();
+        hitAudioSource  = gameObject.AddComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -84,9 +99,32 @@ public class QuizMaster : MonoBehaviour
                             {
                                 quizState = QuizState.qsCORRECT;
                                 answerButtons[i].GetComponent<SpriteRenderer>().color = Color.green;
-                                luchador.health -= 10.0f;
+                                luchador.health -= 19.0f;
                                 Debug.Log("You struck the luchador!");
-                                UpdateHeathBar(luchadorHealthBar, luchador.health/luchador.maxHealth);
+                                if (luchador.health >= 80.0f)
+                                {
+                                    hitAudioSource.PlayOneShot(goodHits[0]);
+                                }
+                                else if (luchador.health >= 60.0f)
+                                {
+                                    hitAudioSource.PlayOneShot(goodHits[1]);
+                                }
+                                else if (luchador.health >= 40.0f)
+                                {
+                                    hitAudioSource.PlayOneShot(goodHits[2]);
+                                }
+                                else if (luchador.health >= 20.0f)
+                                {
+                                    hitAudioSource.PlayOneShot(goodHits[3]);
+                                }
+                                else if (luchador.health > 0)
+                                {
+                                    hitAudioSource.PlayOneShot(goodHits[4]);
+                                }
+                                else
+                                {
+                                    hitAudioSource.PlayOneShot(goodKO);
+                                }
                                 FindFirstObjectByType<LuchadorShake>().StartCoroutine(FindFirstObjectByType<LuchadorShake>().Shake(0.2f, 0.5f));
                             }
                             else
@@ -95,13 +133,24 @@ public class QuizMaster : MonoBehaviour
                                 answerButtons[i].GetComponent<SpriteRenderer>().color = Color.red;
                                 GlobalGameState.playerHealth -= 10.0f;
                                 Debug.Log("You were struck by the luchador!");
-                                UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
+                                if (GlobalGameState.playerHealth <= 0)
+                                {
+                                    hitAudioSource.PlayOneShot(badKO);
+                                }
+                                else
+                                {
+                                    hitAudioSource.PlayOneShot(badHit);
+                                }
                                 FindFirstObjectByType<CameraShake>().StartCoroutine(FindFirstObjectByType<CameraShake>().Shake(0.2f, 0.5f));
                             }
                             timer = answeredPauseTime;
                         }
                         else
                         {
+                            if (answerButtons[i].GetComponent<SpriteRenderer>().color == Color.gray7)
+                            {
+                                hoverAudioSource.PlayOneShot(hoverSound);
+                            } 
                             answerButtons[i].GetComponent<SpriteRenderer>().color = Color.white;
                         }
                     }
@@ -139,6 +188,8 @@ public class QuizMaster : MonoBehaviour
                 else
                 {
                     quizState = QuizState.qsLOAD_QUESTION;
+                    UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
+                    UpdateHeathBar(luchadorHealthBar, luchador.health/luchador.maxHealth);
                 }
                 break;
             case QuizState.qsEND_WIN:
@@ -224,6 +275,7 @@ public class QuizMaster : MonoBehaviour
         {
             answerButtons[i] = Instantiate(answerButtonPrefab, buttonLocations[i], Quaternion.identity);
             answerButtons[i].GetComponentInChildren<TextMeshPro>().text = luchador.questions[luchador.currentQuestionIndex].answers[i];
+            answerButtons[i].GetComponent<SpriteRenderer>().color = Color.gray7;
         }
     }
 

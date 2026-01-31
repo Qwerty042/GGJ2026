@@ -615,6 +615,16 @@ MonoBehaviour:
   luchadorHealthBar: {fileID: 1828881888}
   questionBoxPrefab: {fileID: 1337081400398973855, guid: e05a804084b892a45b0832d29593ff5d, type: 3}
   answerButtonPrefab: {fileID: 6249779979081033792, guid: d19ad94150ca6d2478287710de06ac59, type: 3}
+  hoverSound: {fileID: 8300000, guid: aec035aec3495b743abe3546589b3899, type: 3}
+  goodHits:
+  - {fileID: 8300000, guid: 0ef4bfb22fba9e540935a0ad3f81a79e, type: 3}
+  - {fileID: 8300000, guid: 8117af33314ebe946a1944403039ac71, type: 3}
+  - {fileID: 8300000, guid: 0664fe897631ce543a36a09a6a8582c9, type: 3}
+  - {fileID: 8300000, guid: 56812c37cd7d43e4ebf2293b365babe1, type: 3}
+  - {fileID: 8300000, guid: 5af5e4bcf17889d4486e67804a9afbea, type: 3}
+  badHit: {fileID: 8300000, guid: ae860ebff11f76e41ada0e55267fec42, type: 3}
+  goodKO: {fileID: 8300000, guid: 31f733f93244e1548a646f544f22e9e9, type: 3}
+  badKO: {fileID: 8300000, guid: 620aeaa3a25a0064cbf3b178295f7b85, type: 3}
 --- !u!1 &1528039770
 GameObject:
   m_ObjectHideFlags: 0
