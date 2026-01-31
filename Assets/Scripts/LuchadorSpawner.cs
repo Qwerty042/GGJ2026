@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 public class LuchadorSpawner : MonoBehaviour
 {
@@ -9,23 +10,32 @@ public class LuchadorSpawner : MonoBehaviour
     public string[] luchadorNames;
     public string[] luchadorCsvFileNames;
     public Sprite[] luchadorSprites;
-    public int score;
     public int lastLucha;
+
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI nombreText;
+    public TextMeshProUGUI descriptionText;
+
 
     void Start()
     {
         lastLucha = Array.IndexOf(luchadorNames, GlobalGameState.prevLuchadorName);
         SpawnLuchadors();
         UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
+        Debug.Log(GlobalGameState.playerScore);
+        scoreText.text = $"Win Streak: {GlobalGameState.playerScore}";
+
+        nombreText.text = "";
+        descriptionText.text = "";
     }
 
     void SpawnLuchadors()
     {
-        if (score == 0)
+        if (GlobalGameState.playerScore == 0)
         {
             SpawnLuchador(0, spawnPoints[0].position);
         }
-        else if (score < 10)
+        else if (GlobalGameState.playerScore < 10)
         {
             int[] selectedLuchas = new int[3] { -1, -1, -1 };
             int i = 0;
@@ -63,7 +73,28 @@ public class LuchadorSpawner : MonoBehaviour
     void SpawnLuchador(int index, Vector3 position)
     {
         var obj = Instantiate(luchadorPrefab, position, Quaternion.identity);
-        obj.GetComponent<OverworldLuchador>().Initialize(luchadorNames[index], luchadorCsvFileNames[index], luchadorSprites[index]);
+        obj.transform.localScale = Vector3.one;
+
+        // Ensure the SpriteRenderer is on the right Sorting Layer
+        var sr = obj.GetComponent<SpriteRenderer>();
+        sr.sortingLayerName = "Luchadors"; // create this layer if needed
+        sr.sortingOrder = 10;
+
+        // Ensure prefab has a BoxCollider2D for mouse-over
+        if (obj.GetComponent<Collider2D>() == null)
+            obj.gameObject.AddComponent<BoxCollider2D>();
+
+        obj.GetComponent<OverworldLuchador>().Initialize(
+            luchadorNames[index],
+            luchadorCsvFileNames[index],
+            luchadorSprites[index]
+        );
+
+        obj.GetComponent<LuchadorHover>().nombreText = nombreText;
+        obj.GetComponent<LuchadorHover>().descriptionText = descriptionText;
+        obj.GetComponent<LuchadorHover>().SetName(luchadorNames[index]);
+
+        Debug.Log($"Spawned {luchadorNames[index]} at {position}");
     }
 
     void UpdateHeathBar(GameObject healthBar, float healthRatio)

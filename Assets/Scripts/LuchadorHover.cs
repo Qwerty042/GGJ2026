@@ -1,5 +1,7 @@
 using UnityEngine;
+using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class LuchadorHover : MonoBehaviour
 {
@@ -15,6 +17,22 @@ public class LuchadorHover : MonoBehaviour
     public AudioClip hoverSound;
     private AudioSource audioSource;
 
+    public TextMeshProUGUI nombreText;
+    public TextMeshProUGUI descriptionText;
+
+    public string luchadorName;
+
+    public Dictionary<string, string> descriptions = new Dictionary<string, string>()
+    {
+        {"EL MODISMO", "Basic idioms"},
+        {"NACHO LIBRE", "All about food"},
+        {"PANTALLA PLATEADA", "Film quotes"},
+        {"REY LUCHA", "Lucha libre and wrestling"},
+        {"ULTIMO MEMER", "Dank memes"},
+        {"EL POLITICO", "Political quotes"},
+        {"OBSCURO", "Surprise..."}
+    };
+
     void Awake()
     {
         originalScale = transform.localScale;
@@ -26,6 +44,7 @@ public class LuchadorHover : MonoBehaviour
 
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
+        
 
     }
 
@@ -42,6 +61,9 @@ public class LuchadorHover : MonoBehaviour
         {
             audioSource.PlayOneShot(hoverSound);
         }
+
+        nombreText.text = luchadorName;
+        descriptionText.text = descriptions[luchadorName];
     }
 
     void OnMouseExit()
@@ -52,6 +74,9 @@ public class LuchadorHover : MonoBehaviour
         // Revert color immediately
         if (spriteRenderer != null)
             spriteRenderer.color = originalColor;
+
+        nombreText.text = "";
+        descriptionText.text = "";
     }
 
     void OnMouseDown()
@@ -62,6 +87,12 @@ public class LuchadorHover : MonoBehaviour
         GlobalGameState.nextLuchadorCsvFileName = GetComponent<OverworldLuchador>().luchadorCsvFileName;
         GlobalGameState.nextLuchadorName = thisLuchadorName;
         SceneManager.LoadScene("FightScene");
+    }
+
+    public void SetName(string name)
+    {
+        luchadorName = name.ToUpper();;
+        //if(nombreText != null) nombreText.text = luchadorName;
     }
 
     void Update()

@@ -196,8 +196,8 @@ public class QuizMaster : MonoBehaviour
             case QuizState.qsEND_WIN:
                 AudioManager.Instance.SetVolume(luchador.displayName, 0.0f);
                 GlobalGameState.prevLuchadorName = luchador.displayName;
-                SceneManager.LoadScene("EnemySelect");
                 GlobalGameState.playerScore++;
+                SceneManager.LoadScene("EnemySelect");
                 break;
             case QuizState.qsEND_LOSS:
                 AudioManager.Instance.SetVolume(luchador.displayName, 0.0f);
