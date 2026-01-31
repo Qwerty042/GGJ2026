@@ -50,7 +50,8 @@ public class QuizMaster : MonoBehaviour
         qsCORRECT,
         qsINCORRECT,
         qsUNLOAD_QUESTION,
-        qsEND
+        qsEND_WIN,
+        qsEND_LOSS
     }
     private QuizState quizState = QuizState.qsLOAD_QUESTION;
 
@@ -128,17 +129,24 @@ public class QuizMaster : MonoBehaviour
             case QuizState.qsUNLOAD_QUESTION:
                 DestroyQuestion();
                 Debug.Log($"Remaining Player Health: {playerHealth}, Remaining Luchador Health: {luchador.health}");
-                if(playerHealth <= 0 || luchador.health <= 0)
+                if(playerHealth <= 0)
                 {
-                    Debug.Log("Game Over!");
-                    quizState = QuizState.qsEND;
+                    quizState = QuizState.qsEND_LOSS;
+                }
+                else if (luchador.health <= 0)
+                {
+                    quizState = QuizState.qsEND_WIN;
                 }
                 else
                 {
                     quizState = QuizState.qsLOAD_QUESTION;
                 }
                 break;
-            case QuizState.qsEND:
+            case QuizState.qsEND_WIN:
+                GlobalGameState.prevLuchadorName = luchador.displayName;
+                SceneManager.LoadScene("EnemySelect");
+                break;
+            case QuizState.qsEND_LOSS:
                 SceneManager.LoadScene("Ded");
                 break;
             default:
