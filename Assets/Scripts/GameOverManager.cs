@@ -7,6 +7,7 @@ public class GameOverManager : MonoBehaviour
     [Header("UI References")]
     public TextMeshProUGUI gameOverText;      // Your main Game Over text
     public TextMeshProUGUI instructionsText;  // The text that fades in
+    public TextMeshProUGUI bestText;          // The text showing high score / new record
 
     [Header("Settings")]
     public float inputDelay = 2f;        // Seconds before input is accepted
@@ -33,6 +34,9 @@ public class GameOverManager : MonoBehaviour
             instructionsText.color = color;
         }
 
+        // Handle high score
+        HandleHighScore();
+
         gameOverSource.volume = 1.0f;
 
         // Start the input delay
@@ -43,9 +47,10 @@ public class GameOverManager : MonoBehaviour
     {
         if (canAcceptInput && Input.anyKeyDown)
         {
-            // Reset score
+            // Reset score and health
             GlobalGameState.playerScore = 0;
             GlobalGameState.playerHealth = GlobalGameState.MAX_PLAYER_HEALTH;
+            
             try
             {
                 AudioManager.Instance.SetVolume("Background", 1.0f);
@@ -55,7 +60,6 @@ public class GameOverManager : MonoBehaviour
             {
                 Debug.Log("No audio manager");
             }
-            
 
             // Load next scene
             SceneManager.LoadScene(nextSceneName);
@@ -90,5 +94,26 @@ public class GameOverManager : MonoBehaviour
         // Ensure fully visible at the end
         color.a = 1f;
         text.color = color;
+    }
+
+    private void HandleHighScore()
+    {
+        if (bestText == null) return;
+
+        int currentScore = GlobalGameState.playerScore;
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+        if (currentScore > highScore)
+        {
+            // New record!
+            PlayerPrefs.SetInt("HighScore", currentScore);
+            bestText.text = "New Record!";
+        }
+        else
+        {
+            bestText.text = $"Best: {highScore}";
+        }
+
+        PlayerPrefs.Save();
     }
 }

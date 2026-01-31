@@ -533,6 +533,7 @@ MonoBehaviour:
   inputDelay: 2
   nextSceneName: EnemySelect
   fadeDuration: 1
+  gameOverSource: {fileID: 1183938334}
 --- !u!1 &1183938330
 GameObject:
   m_ObjectHideFlags: 0

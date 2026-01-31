@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LuchadorHover
   hoverScale: 1.2
   lerpSpeed: 10
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  hoverColor: {r: 0.6415094, g: 0.6021716, b: 0.6021716, a: 1}
   hoverSound: {fileID: 8300000, guid: aec035aec3495b743abe3546589b3899, type: 3}
   nombreText: {fileID: 0}
   descriptionText: {fileID: 0}
