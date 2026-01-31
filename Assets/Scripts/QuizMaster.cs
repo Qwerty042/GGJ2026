@@ -40,8 +40,6 @@ public class QuizMaster : MonoBehaviour
     private Luchador luchador;
     private float answeredPauseTime = 0.3f;
     private float timer;
-    private float playerHealth = 100f;
-    private float maxPlayerHeath = 100f;
 
     private enum QuizState
     {
@@ -60,6 +58,7 @@ public class QuizMaster : MonoBehaviour
     {
         selectedLuchador = GlobalGameState.nextLuchadorCsvFileName;
         LoadLuchador(selectedLuchador);
+        UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
     }
 
     // Update is called once per frame
@@ -94,9 +93,9 @@ public class QuizMaster : MonoBehaviour
                             {
                                 quizState = QuizState.qsINCORRECT;
                                 answerButtons[i].GetComponent<SpriteRenderer>().color = Color.red;
-                                playerHealth -= 10.0f;
+                                GlobalGameState.playerHealth -= 10.0f;
                                 Debug.Log("You were struck by the luchador!");
-                                UpdateHeathBar(playerHealthBar, playerHealth/maxPlayerHeath);
+                                UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
                                 FindFirstObjectByType<CameraShake>().StartCoroutine(FindFirstObjectByType<CameraShake>().Shake(0.2f, 0.5f));
                             }
                             timer = answeredPauseTime;
@@ -128,8 +127,8 @@ public class QuizMaster : MonoBehaviour
                 break;
             case QuizState.qsUNLOAD_QUESTION:
                 DestroyQuestion();
-                Debug.Log($"Remaining Player Health: {playerHealth}, Remaining Luchador Health: {luchador.health}");
-                if(playerHealth <= 0)
+                Debug.Log($"Remaining Player Health: {GlobalGameState.playerHealth}, Remaining Luchador Health: {luchador.health}");
+                if(GlobalGameState.playerHealth <= 0)
                 {
                     quizState = QuizState.qsEND_LOSS;
                 }
@@ -145,6 +144,7 @@ public class QuizMaster : MonoBehaviour
             case QuizState.qsEND_WIN:
                 GlobalGameState.prevLuchadorName = luchador.displayName;
                 SceneManager.LoadScene("EnemySelect");
+                GlobalGameState.playerScore++;
                 break;
             case QuizState.qsEND_LOSS:
                 SceneManager.LoadScene("Ded");
