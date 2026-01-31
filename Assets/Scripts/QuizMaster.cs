@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Luchador
 {
     public List<Question> questions;
     public string name;
+    public string displayName;
     public string metadata;
     public int currentQuestionIndex;
     public float health;
@@ -25,8 +27,8 @@ public class QuizMaster : MonoBehaviour
     public GameObject luchadorHealthBar;
     public GameObject questionBoxPrefab;
     public GameObject answerButtonPrefab;
-    public string selectedLuchador;
 
+    private string selectedLuchador;
     private GameObject questionBox;
     private Vector3 questionLocation = new Vector3(-4.5f, -2.75f, 0);
     private GameObject[] answerButtons = new GameObject[4];
@@ -38,8 +40,6 @@ public class QuizMaster : MonoBehaviour
     private Luchador luchador;
     private float answeredPauseTime = 0.3f;
     private float timer;
-    private float playerHealth = 100f;
-    private float maxPlayerHeath = 100f;
 
     private enum QuizState
     {
@@ -48,14 +48,17 @@ public class QuizMaster : MonoBehaviour
         qsCORRECT,
         qsINCORRECT,
         qsUNLOAD_QUESTION,
-        qsEND
+        qsEND_WIN,
+        qsEND_LOSS
     }
     private QuizState quizState = QuizState.qsLOAD_QUESTION;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        selectedLuchador = GlobalGameState.nextLuchadorCsvFileName;
         LoadLuchador(selectedLuchador);
+        UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
     }
 
     // Update is called once per frame
@@ -90,9 +93,9 @@ public class QuizMaster : MonoBehaviour
                             {
                                 quizState = QuizState.qsINCORRECT;
                                 answerButtons[i].GetComponent<SpriteRenderer>().color = Color.red;
-                                playerHealth -= 10.0f;
+                                GlobalGameState.playerHealth -= 10.0f;
                                 Debug.Log("You were struck by the luchador!");
-                                UpdateHeathBar(playerHealthBar, playerHealth/maxPlayerHeath);
+                                UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
                                 FindFirstObjectByType<CameraShake>().StartCoroutine(FindFirstObjectByType<CameraShake>().Shake(0.2f, 0.5f));
                             }
                             timer = answeredPauseTime;
@@ -124,18 +127,27 @@ public class QuizMaster : MonoBehaviour
                 break;
             case QuizState.qsUNLOAD_QUESTION:
                 DestroyQuestion();
-                Debug.Log($"Remaining Player Health: {playerHealth}, Remaining Luchador Health: {luchador.health}");
-                if(playerHealth <= 0 || luchador.health <= 0)
+                Debug.Log($"Remaining Player Health: {GlobalGameState.playerHealth}, Remaining Luchador Health: {luchador.health}");
+                if(GlobalGameState.playerHealth <= 0)
                 {
-                    Debug.Log("Game Over!");
-                    quizState = QuizState.qsEND;
+                    quizState = QuizState.qsEND_LOSS;
+                }
+                else if (luchador.health <= 0)
+                {
+                    quizState = QuizState.qsEND_WIN;
                 }
                 else
                 {
                     quizState = QuizState.qsLOAD_QUESTION;
                 }
                 break;
-            case QuizState.qsEND:
+            case QuizState.qsEND_WIN:
+                GlobalGameState.prevLuchadorName = luchador.displayName;
+                SceneManager.LoadScene("EnemySelect");
+                GlobalGameState.playerScore++;
+                break;
+            case QuizState.qsEND_LOSS:
+                SceneManager.LoadScene("Ded");
                 break;
             default:
                 Debug.LogError("quizState has gone rouge");
@@ -162,6 +174,7 @@ public class QuizMaster : MonoBehaviour
         luchador = new Luchador();
         luchador.questions = new List<Question>();
         luchador.name = luchadorName;
+        luchador.displayName = GlobalGameState.nextLuchadorName;
         luchador.maxHealth = 100;
         luchador.health = luchador.maxHealth;
         luchador.metadata = lines[0]; // TODO: parse this to get the visual and sound assets for this luchador

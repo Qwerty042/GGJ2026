@@ -13,8 +13,8 @@ public class LuchadorSpawner : MonoBehaviour
 
     void Start()
     {
-        SpawnLuchadors();
         lastLucha = Array.IndexOf(luchadorNames, GlobalGameState.prevLuchadorName);
+        SpawnLuchadors();
     }
 
     void SpawnLuchadors()

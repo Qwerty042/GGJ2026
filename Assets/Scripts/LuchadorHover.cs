@@ -54,11 +54,12 @@ public class LuchadorHover : MonoBehaviour
             spriteRenderer.color = originalColor;
     }
 
-    void OnClick()
+    void OnMouseDown()
     {
+        Debug.Log("Clicked!");
         GlobalGameState.nextLuchadorCsvFileName = GetComponent<OverworldLuchador>().luchadorCsvFileName;
         GlobalGameState.nextLuchadorName = GetComponent<OverworldLuchador>().luchadorName;
-        SceneManager.LoadScene("sceneName");
+        SceneManager.LoadScene("FightScene");
     }
 
     void Update()
