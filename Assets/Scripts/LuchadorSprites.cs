@@ -11,7 +11,7 @@ public static class LuchadorSprites
             { "Nacho Libre",       new[] { "NachoSprite", "Nachothumb" } },
             { "Pantalla Plateada", new[] { "pantallaSprite", "patalathumb" } },
             { "Rey Lucha",         new[] { "ModismoSprite", "reythumb" } },
-            { "Ultimato Memer",    new[] { "ModismoSprite", "memerthumb" } },
+            { "Ultimo Memer",    new[] { "ModismoSprite", "memerthumb" } },
             { "El Politico",       new[] { "ModismoSprite", "politicothumb" } },
             { "Obscuro",           new[] { "obscurosprite", "obscurothumb" } },
         };

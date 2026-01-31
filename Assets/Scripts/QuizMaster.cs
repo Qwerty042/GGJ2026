@@ -114,7 +114,7 @@ public class QuizMaster : MonoBehaviour
                 Vector3 nextPos = new Vector3();
                 nextPos.x = Mathf.Lerp(playerSpriteStartPos.x, playerSpriteStartPos.x + 0.5f, playerJumpingAnimPos);
                 nextPos.y = playerSpriteStartPos.y + (-0.25f * Mathf.Sin(((playerSpriteStartPos.x * Mathf.PI)/(0.5f))-(((nextPos.x) * Mathf.PI)/(0.5f))));
-                Debug.Log(nextPos.y);
+                // Debug.Log(nextPos.y);
                 
                 playerSprite.transform.position = nextPos;
 
@@ -133,7 +133,7 @@ public class QuizMaster : MonoBehaviour
                 nextPos = new Vector3();
                 nextPos.x = Mathf.Lerp(luchadorSpriteStartPos.x, luchadorSpriteStartPos.x + 0.3f, luchadorJumpingAnimPos);
                 nextPos.y = luchadorSpriteStartPos.y + (-0.15f * Mathf.Sin(((luchadorSpriteStartPos.x * Mathf.PI)/(0.3f))-(((nextPos.x) * Mathf.PI)/(0.3f))));
-                Debug.Log(nextPos.y);
+                // Debug.Log(nextPos.y);
                 
                 luchadorSprite.transform.position = nextPos;
 
@@ -344,6 +344,14 @@ public class QuizMaster : MonoBehaviour
 
         questionBox = Instantiate(questionBoxPrefab, questionLocation, Quaternion.identity);
         questionBox.GetComponentInChildren<TextMeshPro>().text = luchador.questions[luchador.currentQuestionIndex].questionString.Replace("[MASK]", "[\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0]");
+        
+        if (!LuchadorSprites.Map.TryGetValue(luchador.displayName, out var files))
+        {
+            Debug.LogError($"No sprite mapping for luchador: {luchador.displayName}");
+            return;
+        }
+        Sprite thumb = Resources.Load<Sprite>($"Luchadors/{files[1]}");
+        questionBox.transform.Find("HeadSprite").GetComponent<SpriteRenderer>().sprite = thumb;
         for (int i = 0; i < answerButtons.Length; i++)
         {
             answerButtons[i] = Instantiate(answerButtonPrefab, buttonLocations[i], Quaternion.identity);
