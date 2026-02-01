@@ -286,10 +286,13 @@ public class QuizMaster : MonoBehaviour
                 timer -= Time.deltaTime;
                 npos = playerSprite.transform.position;
                 playerSprite.transform.Rotate(0.0f, 0.0f, -2.0f);
-                Debug.Log(playerSprite.transform.localScale * 1.01f);
-                playerSprite.transform.localScale *= 1.01f;
+                Debug.Log(playerSprite.transform.localScale * 1.006f);
+                if (playerSprite.transform.localScale.x <= 20)
+                {
+                    playerSprite.transform.localScale *= 1.006f;
+                }
                 npos.y -= 3.0f * Time.deltaTime;
-                npos.x -= 20.0f * Time.deltaTime;
+                npos.x -= 30.0f * Time.deltaTime;
                 playerSprite.transform.position = npos;
                 if(timer <= 0.0f)
                 {
