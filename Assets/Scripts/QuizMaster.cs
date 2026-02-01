@@ -287,7 +287,7 @@ public class QuizMaster : MonoBehaviour
                 npos = playerSprite.transform.position;
                 playerSprite.transform.Rotate(0.0f, 0.0f, -2.0f);
                 Debug.Log(playerSprite.transform.localScale * 1.006f);
-                if (playerSprite.transform.localScale.x <= 20)
+                if (playerSprite.transform.localScale.x <= 17)
                 {
                     playerSprite.transform.localScale *= 1.006f;
                 }
