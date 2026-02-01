@@ -41,6 +41,7 @@ public class QuizMaster : MonoBehaviour
 
     private Luchador luchador;
     private float answeredPauseTime = 0.3f;
+    private float deathPauseTime = 3.0f;
     private float timer;
 
     public AudioClip ringBell;
@@ -232,7 +233,6 @@ public class QuizMaster : MonoBehaviour
                 timer -= Time.deltaTime;
                 if(timer <= 0.0f)
                 {
-                    playerSprite.transform.localScale = playerSpriteStartScale;
                     quizState = QuizState.qsUNLOAD_QUESTION;
                 }
                 break;
@@ -240,38 +240,61 @@ public class QuizMaster : MonoBehaviour
                 timer -= Time.deltaTime;
                 if(timer <= 0.0f)
                 {
-                    luchadorSprite.transform.localScale = luchadorSpriteStartScale;
                     quizState = QuizState.qsUNLOAD_QUESTION;
                 }
                 break;
             case QuizState.qsUNLOAD_QUESTION:
                 DestroyQuestion();
+                UpdateHeathBarPlayer(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
+                UpdateHeathBarLuchador(luchadorHealthBar, luchador.health/luchador.maxHealth);
                 Debug.Log($"Remaining Player Health: {GlobalGameState.playerHealth}, Remaining Luchador Health: {luchador.health}");
                 if(GlobalGameState.playerHealth <= 0)
                 {
+                    timer = deathPauseTime;
                     quizState = QuizState.qsEND_LOSS;
                 }
                 else if (luchador.health <= 0)
                 {
+                    timer = deathPauseTime;
                     quizState = QuizState.qsEND_WIN;
                 }
                 else
                 {
+                    luchadorSprite.transform.localScale = luchadorSpriteStartScale;
+                    playerSprite.transform.localScale = playerSpriteStartScale;
                     quizState = QuizState.qsLOAD_QUESTION;
-                    UpdateHeathBarPlayer(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
-                    UpdateHeathBarLuchador(luchadorHealthBar, luchador.health/luchador.maxHealth);
                 }
                 break;
             case QuizState.qsEND_WIN:
-                AudioManager.Instance.SetVolume(luchador.displayName, 0.0f);
-                GlobalGameState.prevLuchadorName = luchador.displayName;
-                GlobalGameState.playerScore++;
-                SceneManager.LoadScene("EnemySelect");
+                timer -= Time.deltaTime;
+                if(timer <= 0.0f)
+                {
+                    AudioManager.Instance.SetVolume(luchador.displayName, 0.0f);
+                    GlobalGameState.prevLuchadorName = luchador.displayName;
+                    GlobalGameState.playerScore++;
+                    SceneManager.LoadScene("EnemySelect");
+                }
+                else if (timer <= deathPauseTime - 1.0f)
+                {
+                    Vector3 pos = luchadorSprite.transform.position;
+                    pos.y -= 12.0f * Time.deltaTime;
+                    luchadorSprite.transform.position = pos;
+                }
                 break;
             case QuizState.qsEND_LOSS:
-                AudioManager.Instance.SetVolume(luchador.displayName, 0.0f);
-                AudioManager.Instance.SetVolume("Background", 0.0f);
-                SceneManager.LoadScene("Ded");
+                timer -= Time.deltaTime;
+                if(timer <= 0.0f)
+                {
+                    AudioManager.Instance.SetVolume(luchador.displayName, 0.0f);
+                    AudioManager.Instance.SetVolume("Background", 0.0f);
+                    SceneManager.LoadScene("Ded");
+                }
+                else if (timer <= deathPauseTime - 1.0f)
+                {
+                    Vector3 pos = playerSprite.transform.position;
+                    pos.y -= 12.0f * Time.deltaTime;
+                    playerSprite.transform.position = pos;
+                }
                 break;
             default:
                 Debug.LogError("quizState has gone rouge");
