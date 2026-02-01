@@ -41,7 +41,7 @@ public class QuizMaster : MonoBehaviour
 
     private Luchador luchador;
     private float answeredPauseTime = 0.3f;
-    private float deathPauseTime = 3.0f;
+    private float deathPauseTime = 1.0f;
     private float timer;
 
     public AudioClip ringBell;
@@ -267,6 +267,13 @@ public class QuizMaster : MonoBehaviour
                 break;
             case QuizState.qsEND_WIN:
                 timer -= Time.deltaTime;
+                Vector3 npos = luchadorSprite.transform.position;
+                luchadorSprite.transform.Rotate(0.0f, 0.0f, 2.0f);
+                Debug.Log(luchadorSprite.transform.localScale * 0.99f);
+                luchadorSprite.transform.localScale *= 0.99f;
+                npos.y += 3.0f * Time.deltaTime;
+                npos.x += 10.0f * Time.deltaTime;
+                luchadorSprite.transform.position = npos;
                 if(timer <= 0.0f)
                 {
                     AudioManager.Instance.SetVolume(luchador.displayName, 0.0f);
@@ -274,27 +281,28 @@ public class QuizMaster : MonoBehaviour
                     GlobalGameState.playerScore++;
                     SceneManager.LoadScene("EnemySelect");
                 }
-                else if (timer <= deathPauseTime - 1.0f)
-                {
-                    Vector3 pos = luchadorSprite.transform.position;
-                    pos.y -= 12.0f * Time.deltaTime;
-                    luchadorSprite.transform.position = pos;
-                }
                 break;
             case QuizState.qsEND_LOSS:
                 timer -= Time.deltaTime;
+                npos = playerSprite.transform.position;
+                playerSprite.transform.Rotate(0.0f, 0.0f, -2.0f);
+                Debug.Log(playerSprite.transform.localScale * 1.01f);
+                playerSprite.transform.localScale *= 1.01f;
+                npos.y -= 3.0f * Time.deltaTime;
+                npos.x -= 20.0f * Time.deltaTime;
+                playerSprite.transform.position = npos;
                 if(timer <= 0.0f)
                 {
                     AudioManager.Instance.SetVolume(luchador.displayName, 0.0f);
                     AudioManager.Instance.SetVolume("Background", 0.0f);
                     SceneManager.LoadScene("Ded");
                 }
-                else if (timer <= deathPauseTime - 1.0f)
-                {
-                    Vector3 pos = playerSprite.transform.position;
-                    pos.y -= 12.0f * Time.deltaTime;
-                    playerSprite.transform.position = pos;
-                }
+                // else if (timer <= deathPauseTime - 1.0f)
+                // {
+                //     Vector3 pos = playerSprite.transform.position;
+                //     pos.y -= 12.0f * Time.deltaTime;
+                //     playerSprite.transform.position = pos;
+                // }
                 break;
             default:
                 Debug.LogError("quizState has gone rouge");
