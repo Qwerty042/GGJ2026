@@ -32,12 +32,12 @@ public class QuizMaster : MonoBehaviour
 
     private string selectedLuchador;
     private GameObject questionBox;
-    private Vector3 questionLocation = new Vector3(-5.4f, -3.0f, 0);
+    private Vector3 questionLocation = new Vector3(-5.4f, -3.3f, 0);
     private GameObject[] answerButtons = new GameObject[4];
-    private Vector3[] buttonLocations = { new Vector3(0.64f,-2.36f,0),
-                                          new Vector3(6.04f,-2.36f,0),
-                                          new Vector3(0.64f,-3.66f,0),
-                                          new Vector3(6.04f,-3.66f,0)};
+    private Vector3[] buttonLocations = { new Vector3(0.64f,-2.66f,0),
+                                          new Vector3(6.04f,-2.66f,0),
+                                          new Vector3(0.64f,-3.96f,0),
+                                          new Vector3(6.04f,-3.96f,0)};
 
     private Luchador luchador;
     private float answeredPauseTime = 0.3f;
