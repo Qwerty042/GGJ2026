@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 453a48b25f1395b419586ad96534837a
+guid: 6a6bb4ff97f354545a4c91c3dc868c5a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 68482502717635377
-    second: obscurosprite_0
+      213: -3432752112669311847
+    second: politicosprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: obscurosprite_0
+      name: politicosprite_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 97
-        height: 237
+        width: 100
+        height: 208
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 13b70df297c43f000800000000000000
-      internalID: 68482502717635377
+      spriteID: 99cbf5a142a6c50d0800000000000000
+      internalID: -3432752112669311847
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      obscurosprite_0: 68482502717635377
+      politicosprite_0: -3432752112669311847
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

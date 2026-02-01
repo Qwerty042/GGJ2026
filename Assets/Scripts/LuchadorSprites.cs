@@ -10,9 +10,9 @@ public static class LuchadorSprites
             { "El Modismo",        new[] { "ModismoSprite", "modismothumb" } },
             { "Nacho Libre",       new[] { "NachoSprite", "Nachothumb" } },
             { "Pantalla Plateada", new[] { "pantallaSprite", "patalathumb" } },
-            { "Rey Lucha",         new[] { "ModismoSprite", "reythumb" } },
-            { "Ultimo Memer",    new[] { "ModismoSprite", "memerthumb" } },
-            { "El Politico",       new[] { "ModismoSprite", "politicothumb" } },
+            { "Rey Lucha",         new[] { "reysprite", "reythumb" } },
+            { "Ultimo Memer",      new[] { "memersprite", "memerthumb" } },
+            { "El Politico",       new[] { "politicosprite", "politicothumb" } },
             { "Obscuro",           new[] { "obscurosprite", "obscurothumb" } },
         };
 }

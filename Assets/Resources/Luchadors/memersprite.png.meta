@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 453a48b25f1395b419586ad96534837a
+guid: 7910c0e3b98c8cf4283aec421febccfa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 68482502717635377
-    second: obscurosprite_0
+      213: -1829715565421900551
+    second: memersprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: obscurosprite_0
+      name: memersprite_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 97
-        height: 237
+        width: 98
+        height: 227
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 13b70df297c43f000800000000000000
-      internalID: 68482502717635377
+      spriteID: 9fc4603336b8b96e0800000000000000
+      internalID: -1829715565421900551
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      obscurosprite_0: 68482502717635377
+      memersprite_0: -1829715565421900551
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
