@@ -32,12 +32,12 @@ public class QuizMaster : MonoBehaviour
 
     private string selectedLuchador;
     private GameObject questionBox;
-    private Vector3 questionLocation = new Vector3(-5.4f, -3.0f, 0);
+    private Vector3 questionLocation = new Vector3(-5.4f, -3.3f, 0);
     private GameObject[] answerButtons = new GameObject[4];
-    private Vector3[] buttonLocations = { new Vector3(0.64f,-2.36f,0),
-                                          new Vector3(6.04f,-2.36f,0),
-                                          new Vector3(0.64f,-3.66f,0),
-                                          new Vector3(6.04f,-3.66f,0)};
+    private Vector3[] buttonLocations = { new Vector3(0.64f,-2.66f,0),
+                                          new Vector3(6.04f,-2.66f,0),
+                                          new Vector3(0.64f,-3.96f,0),
+                                          new Vector3(6.04f,-3.96f,0)};
 
     private Luchador luchador;
     private float answeredPauseTime = 0.3f;
@@ -87,7 +87,7 @@ public class QuizMaster : MonoBehaviour
     {
         selectedLuchador = GlobalGameState.nextLuchadorCsvFileName;
         LoadLuchador(selectedLuchador);
-        UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
+        UpdateHeathBarPlayer(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
         playerSpriteStartPos = playerSprite.transform.position;
         playerSpriteStartScale = playerSprite.transform.localScale;
         luchadorSpriteStartPos = luchadorSprite.transform.position;
@@ -258,8 +258,8 @@ public class QuizMaster : MonoBehaviour
                 else
                 {
                     quizState = QuizState.qsLOAD_QUESTION;
-                    UpdateHeathBar(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
-                    UpdateHeathBar(luchadorHealthBar, luchador.health/luchador.maxHealth);
+                    UpdateHeathBarPlayer(playerHealthBar, GlobalGameState.playerHealth/GlobalGameState.MAX_PLAYER_HEALTH);
+                    UpdateHeathBarLuchador(luchadorHealthBar, luchador.health/luchador.maxHealth);
                 }
                 break;
             case QuizState.qsEND_WIN:
@@ -370,7 +370,13 @@ public class QuizMaster : MonoBehaviour
         }
     }
 
-    void UpdateHeathBar(GameObject healthBar, float healthRatio)
+    void UpdateHeathBarLuchador(GameObject healthBar, float healthRatio)
+    {
+        healthBar.GetComponentsInChildren<Transform>()[1].localScale = new Vector3(healthRatio, 1, 1);
+        healthBar.GetComponentsInChildren<Transform>()[1].localPosition = new Vector3(+0.5f*(1.0f-healthRatio), 0, 0);
+    }
+
+    void UpdateHeathBarPlayer(GameObject healthBar, float healthRatio)
     {
         healthBar.GetComponentsInChildren<Transform>()[1].localScale = new Vector3(healthRatio, 1, 1);
         healthBar.GetComponentsInChildren<Transform>()[1].localPosition = new Vector3(-0.5f*(1.0f-healthRatio), 0, 0);
