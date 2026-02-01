@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 16ff283c98a15814e9780a849a04d997
+guid: 689bd6f1a1aae6a41a297f95bb010f83
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1993050390034824194
-    second: arena_0
+      213: 7233813945916283570
+    second: waam por el soll_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: arena_0
+      name: waam por el soll_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 320
-        height: 180
+        width: 33
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ef3458ada334754e0800000000000000
-      internalID: -1993050390034824194
+      spriteID: 2ba5b99157ba36460800000000000000
+      internalID: 7233813945916283570
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      arena_0: -1993050390034824194
+      waam por el soll_0: 7233813945916283570
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
